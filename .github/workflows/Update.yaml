@@ -1,0 +1,34 @@
+name: Update
+
+on:
+  push:
+  schedule:
+    - cron: 30 20 * * *
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Update
+      run: |
+        rm -f Steam.yaml && wget https://raw.githubusercontent.com/DivineEngine/Profiles/master/Clash/RuleSet/Extra/Game/Steam.yaml -O Steam.yaml
+        rm -f Netflix.yaml && wget https://raw.githubusercontent.com/DivineEngine/Profiles/master/Clash/RuleSet/StreamingMedia/Video/Netflix.yaml -O Netflix.yaml
+        rm -f Disney+.yaml && wget https://raw.githubusercontent.com/DivineEngine/Profiles/master/Clash/RuleSet/StreamingMedia/Video/DisneyPlus.yaml -O Disney+.yaml
+        rm -f Bahamut.yaml && wget https://raw.githubusercontent.com/DivineEngine/Profiles/master/Clash/RuleSet/StreamingMedia/Video/Bahamut.yaml -O Bahamut.yaml
+        rm -f OneDrive.yaml && wget https://raw.githubusercontent.com/DivineEngine/Profiles/master/Clash/RuleSet/Extra/Microsoft/OneDrive.yaml -O OneDrive.yaml
+        rm -f Apple-Proxy.yaml && wget https://raw.githubusercontent.com/Hackl0us/SS-Rule-Snippet/main/Rulesets/Clash/Basic/Apple-proxy.yaml -O Apple-Proxy.yaml
+        rm -f Apple-Direct.yaml && wget https://raw.githubusercontent.com/Hackl0us/SS-Rule-Snippet/main/Rulesets/Clash/Basic/Apple-direct.yaml -O Apple-Direct.yaml
+        rm -f China.yaml && wget https://raw.githubusercontent.com/Hackl0us/SS-Rule-Snippet/main/Rulesets/Clash/Basic/CN.yaml -O China.yaml
+        rm -f AD.yaml && wget https://raw.githubusercontent.com/Hackl0us/SS-Rule-Snippet/main/Rulesets/Clash/Basic/common-ad-keyword.yaml -O AD.yaml
+        rm -f Global.yaml && wget https://raw.githubusercontent.com/Hackl0us/SS-Rule-Snippet/main/Rulesets/Clash/Basic/foreign.yaml -O Global.yaml
+        rm -f Telegram.yaml && wget https://raw.githubusercontent.com/Hackl0us/SS-Rule-Snippet/main/Rulesets/Clash/App/social/Telegram.yaml -O Telegram.yaml
+        rm -f LAN.yaml && wget https://raw.githubusercontent.com/Hackl0us/SS-Rule-Snippet/main/Rulesets/Clash/Basic/LAN.yaml -O LAN.yaml
+        echo `date +"%Y-%m-%d %H:%M:%S"` Finish > README.md
+        git config --global user.name TCatSub
+        git checkout --orphan latest_branch
+        git add -A
+        git commit -am "Update"
+        git branch -D main
+        git branch -m main
+        git push -f origin main
